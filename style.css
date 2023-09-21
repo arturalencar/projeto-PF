@@ -1,0 +1,64 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    
+    background-color: #fff;
+}
+nav.menu-lateral{
+    height: 100%;
+    width: 60px;
+    background-color: aquamarine;
+    transition: 0.5s;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 40px 0 40px 1%;
+    box-shadow: 3px 0 0 black;
+    overflow: hidden;
+    border-radius: 5px;
+   
+}
+nav.menu-lateral:hover{
+    width: 200px;
+    
+}
+ul.menu-elementos{
+    
+    list-style: none;
+}
+ul.menu-elementos li{
+    transition: 0.5s;
+    cursor: pointer;
+    display: flex;
+    margin-bottom: 20px;
+    line-height: 45px;
+}
+ul.menu-elementos li:hover{
+    background-color: red;
+    
+}
+ul.menu-elementos li span.icons-menu{
+    font-size: 30px;
+    margin-left: 8px;
+    
+    
+}
+
+ul.menu-elementos li span.menu-texto{
+    font-size: 20px;
+   
+    margin-left: 12px;
+    
+}
+div.tetris-principal{
+    height: 600px;
+    background-color: red;
+    display: flex;
+    margin: 5% 30% 10% 30% ;
+    border-radius: 10px;
+    border: solid 3px;
+   
+}
