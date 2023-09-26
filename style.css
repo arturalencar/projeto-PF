@@ -100,7 +100,7 @@ ul.menu-elementos li span.icons-menu{
   padding: 10px 15px;
 }
 
-#overlay { 
+#overlay {
   position: fixed;
   opacity: 0;
   transition: 200ms ease-in-out;

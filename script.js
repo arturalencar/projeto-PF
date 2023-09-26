@@ -1,4 +1,4 @@
-// Shop Button (Não está em programção funcional) 
+// Shop Button (Não está em programção funcional)
 const openShopButtons = document.querySelectorAll('[data-shop-target]') 
 const closeShopButtons = document.querySelectorAll('[data-close-button]')
 const overlay = document.getElementById('overlay')
