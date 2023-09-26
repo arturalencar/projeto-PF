@@ -1,3 +1,41 @@
+// Shop Button (Não está em programção funcional)
+const openShopButtons = document.querySelectorAll('[data-shop-target]') 
+const closeShopButtons = document.querySelectorAll('[data-close-button]')
+const overlay = document.getElementById('overlay')
+
+openShopButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const shop = document.querySelector(button.dataset.shopTarget)
+    openShop(shop)
+  })
+})
+
+overlay.addEventListener('click', () => {
+  const shops = document.querySelectorAll('.shop.active')
+  shops.forEach(shop => {
+    closeShop(shop)
+  })
+})
+
+closeShopButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const shop = button.closest('.shop')
+    closeShop(shop)
+  })
+})
+
+function openShop(shop) {
+  if (shop == null) return
+  shop.classList.add('active')
+  overlay.classList.add('active')
+}
+
+function closeShop(shop) {
+  if (shop == null) return
+  shop.classList.remove('active')
+  overlay.classList.remove('active')
+}
+
 //General functions 
 const id = x => x
 const add = x => y => x + y
@@ -182,10 +220,14 @@ process.stdin.setRawMode(true);
 process.stdin.on('keypress', (str, key) => {
   if (key.ctrl && key.name === 'c') process.exit()
   switch (key.name.toUpperCase()) {
-    case 'LEFT':  STATE = State.moveLeft(STATE);  break
+    case 'LEFT':  STATE = State.moveLeft(STATE);  break  
     case 'RIGHT': STATE = State.moveRight(STATE); break
     case 'DOWN':  STATE = State.moveDown(STATE);  break
     case 'UP':    STATE = State.rotate(STATE);    break
+    case 'A':  STATE = State.moveLeft(STATE);  break
+    case 'D': STATE = State.moveRight(STATE); break
+    case 'S':  STATE = State.moveDown(STATE);  break
+    case 'W':    STATE = State.rotate(STATE);    break
   }
 });
 
@@ -200,3 +242,41 @@ const show = () =>
     Matrix.toStr,
   )(STATE))
 setInterval(() => { step(); show() }, 30)
+
+/*/ Shop Button
+const openModalButtons = document.querySelectorAll('[data-modal-target]') //Não está em programção funcional
+const closeModalButtons = document.querySelectorAll('[data-close-button]')
+const overlay = document.getElementById('overlay')
+
+openModalButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const modal = document.querySelector(button.dataset.modalTarget)
+    openModal(modal)
+  })
+})
+
+overlay.addEventListener('click', () => {
+  const modals = document.querySelectorAll('.modal.active')
+  modals.forEach(modal => {
+    closeModal(modal)
+  })
+})
+
+closeModalButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const modal = button.closest('.modal')
+    closeModal(modal)
+  })
+})
+
+function openModal(modal) {
+  if (modal == null) return
+  modal.classList.add('active')
+  overlay.classList.add('active')
+}
+
+function closeModal(modal) {
+  if (modal == null) return
+  modal.classList.remove('active')
+  overlay.classList.remove('active')
+}*/
