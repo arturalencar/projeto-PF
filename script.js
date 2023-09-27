@@ -38,32 +38,59 @@ function closeShop(shop) {
 
 //General functions 
 const id = x => x
+// realiza a soma de dois parâmetros
 const add = x => y => x + y
-const transpose = xsxs => xsxs[0].map((col, i) => xsxs.map(row => row[i]));
-const mirror = xsxs => xsxs.map(xs => xs.reverse())
+// recebe uma matriz bidimensional e devolve como resultado a sua matriz transposta
+const transpose = matrix => matrix[0].map((col, i) => matrix.map(row => row[i]));
+// recebe como parâmetro um array com subarrays e inverte a ordem dos elementos do subarray 
+const mirror = arrayOfArrays => arrayOfArrays.map(subArray => subArray.reverse())
+// a função pipe faz um encadeiamento de n funções em um parâmetro x qualquer 
 const pipe = (...fs) => x => [...fs].reduce((acc, f) => f(acc), x)
+// recebe uma função e um array como parâmetros e realiza um map no array 
 const map = f => xs => xs.map(f)
+//recebe um valor min e max e cria um array com os valores intermediários
 const range = min => max => [...Array(max).keys()].map((_, i) => i + min)
+// função que independente do seu segundo parâmetro sempre retorna o valor do primeiro, criando assim uma constante
 const k = x => _ => x
+// recebe como primeiro parâmetro um separador e como segundo um array o qual, para cada elemento do array tera como termo separador a string passada no primeiro parâmetro 
 const join = s => xs => xs.join(s)
-const rep = c => n => map(k(c))(range(0)(n))
+// recebe um valor e cria um array com n elemnetos iguais ao valor passado no primeiro parâmetro
+const rep = value => numberOfRepetitions => map(k(value))(range(0)(numberOfRepetitions))
+// recebe dois valores e realiza um concatenação entre eles 
 const concat = x1 => x2 => x1.concat(x2)
+// aplica uma função a cada um dos elementos de um array e passa o índice desse elemento como argumento para a função
 const mapi = f => xs => xs.map((x, i) => f(x)(i))
-const ifelse = c => t => f => x => c(x) ? t(x) : f(x)
+// verifica se uma determinada condição e verdadeira, caso seja aplica a função t e caso seja falsa aplica a função f
+const ifelse = condition => t => f => value => condition(value) ? t(value) : f(value)
+//
 const reduce = f => z => xs => xs.reduce((acc, x) => f(acc)(x), z)
+//
 const eq = x => y => x == y
+//
 const find = f => xs => xs.find(f)
+//
 const append = x => xs => [...xs, x]
+//
 const not = f => x => !f(x)
+//
 const and = x => y => x && y
+//
 const or = x => y => x || y
+//
 const all = f => pipe(map(f), reduce(and)(true))
+//
 const any = f => pipe(map(f), reduce(or)(false))
+//
 const flip = f => x => y => f(y)(x)
+//
 const filter = f => xs => xs.filter(f)
+//
 const gt = x => y => x > y
+//
 const lt = x => y => x < y
+//
 const prop = p => o => o[p]
+//
 const both = f => g => x => f(x) && g(x)
 
 const Color = {}
@@ -119,7 +146,7 @@ Matrix.mount  = f => pos => m1 => m2 =>
       : m2[y][x]
     )(row)
   )(m2)
-
+    
 const Random = {}
 Random.pick = xs => xs[Math.floor(Math.random() * xs.length)]
 
@@ -128,9 +155,9 @@ Player.move   = d => p => ({ ...p, x:p.x+(d.x||0), y:p.y+(d.y||0) })
 Player.make   = () => ({ x: 3, y: 0 , piece: Piece.rand() }),
 Player.rotate = p  => ({ ...p, piece: Matrix.rotate(p.piece) })
 
-const State          = {}
-State.toMatrix       = s => Board.mount(s.player)(s.board)
-State.make           = k({
+const State = {}
+State.toMatrix = s => Board.mount(s.player)(s.board)
+State.make = k({
   time:   0,
   wait:   15,
   board:  Matrix.make(22)(10),
@@ -217,17 +244,13 @@ Board.valid = b1 => b2 => Matrix.sum(b1) == Matrix.sum(b2)
 const readline = require('readline')
 readline.emitKeypressEvents(process.stdin);
 process.stdin.setRawMode(true);
-process.stdin.on('keypress', (str, key) => {
+process.on('keypress', (str, key) => {
   if (key.ctrl && key.name === 'c') process.exit()
   switch (key.name.toUpperCase()) {
-    case 'LEFT':  STATE = State.moveLeft(STATE);  break  
+    case 'LEFT':  STATE = State.moveLeft(STATE);  break
     case 'RIGHT': STATE = State.moveRight(STATE); break
     case 'DOWN':  STATE = State.moveDown(STATE);  break
     case 'UP':    STATE = State.rotate(STATE);    break
-    case 'A':  STATE = State.moveLeft(STATE);  break
-    case 'D': STATE = State.moveRight(STATE); break
-    case 'S':  STATE = State.moveDown(STATE);  break
-    case 'W':    STATE = State.rotate(STATE);    break
   }
 });
 
@@ -243,40 +266,4 @@ const show = () =>
   )(STATE))
 setInterval(() => { step(); show() }, 30)
 
-/*/ Shop Button
-const openModalButtons = document.querySelectorAll('[data-modal-target]') //Não está em programção funcional
-const closeModalButtons = document.querySelectorAll('[data-close-button]')
-const overlay = document.getElementById('overlay')
 
-openModalButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    const modal = document.querySelector(button.dataset.modalTarget)
-    openModal(modal)
-  })
-})
-
-overlay.addEventListener('click', () => {
-  const modals = document.querySelectorAll('.modal.active')
-  modals.forEach(modal => {
-    closeModal(modal)
-  })
-})
-
-closeModalButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    const modal = button.closest('.modal')
-    closeModal(modal)
-  })
-})
-
-function openModal(modal) {
-  if (modal == null) return
-  modal.classList.add('active')
-  overlay.classList.add('active')
-}
-
-function closeModal(modal) {
-  if (modal == null) return
-  modal.classList.remove('active')
-  overlay.classList.remove('active')
-}*/
