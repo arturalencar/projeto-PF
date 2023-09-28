@@ -93,42 +93,85 @@ const prop = p => o => o[p]
 //
 const both = f => g => x => f(x) && g(x)
 
-const Color = {}
-Color.black   = s => `\x1b[30m${s}\x1b[0m`
-Color.red     = s => `\x1b[31m${s}\x1b[0m`
-Color.green   = s => `\x1b[32m${s}\x1b[0m`
-Color.yellow  = s => `\x1b[33m${s}\x1b[0m`
-Color.blue    = s => `\x1b[34m${s}\x1b[0m`
-Color.magenta = s => `\x1b[35m${s}\x1b[0m`
-Color.cyan    = s => `\x1b[36m${s}\x1b[0m`
-Color.white   = s => `\x1b[37m${s}\x1b[0m`
+const colors = [
+  '#fff',
+  '#9b5fe0',
+  '#16a4d8',
+  '#60dbe8',
+  '#8bd346',
+  '#efdf48',
+  '#f9a52c',
+  '#d64e12' 
+]
 
-const Pieces = {
-  I: [[0,0,0,0],[1,1,1,1],[0,0,0,0],[0,0,0,0]],
-  O: [[2,2],[2,2]],
-  T: [[0,3,0],[3,3,3],[0,0,0]],
-  S: [[0,4,4],[4,4,0],[0,0,0]],
-  Z: [[0,0,0],[5,5,0],[0,5,5]],
-  J: [[0,0,0],[6,6,6],[0,0,6]],
-  L: [[0,0,7],[7,7,7],[0,0,0]],
+const rows = 20;
+const cols = 10;
+const Pieces = [
+  [
+       [0,1,0,0],
+       [0,1,0,0],
+       [0,1,0,0],
+       [0,1,0,0]
+  ],
+  [
+       [1,1],
+       [1,1]
+  ],
+  [
+       [0,1,0],
+       [1,1,1],
+       [0,0,0]
+  ],
+  [
+       [0,1,1],
+       [1,1,0],
+       [0,0,0]
+  ],
+  [
+       [0,0,0],
+       [1,1,0],
+       [0,1,1]
+  ],
+  [
+       [0,0,0],
+       [1,1,1],
+       [0,0,1]
+  ],
+  [
+       [0,0,1],
+       [1,1,1],
+       [0,0,0]
+  ],
+]
+
+let canvas = document.querySelector('#tetris-board')
+let ctx = canvas.getContext("2d");
+ctx.scale(30, 30);
+
+;
+const generateRandomPiece = () => {
+  const ran = Math.floor(Math.random() * 7)
+  const piece = Pieces[ran]
+  const x = 4;
+  const y = 0;
+  const colorIndex = ran + 1
+  return { piece, x, y, colorIndex }
 }
 
-const Piece = {}
-Piece.rand = () => Random.pick(Object.values(Pieces))
-Piece.toStr = n => {
-  switch (n) {
-    case 0: return ' ';          break
-    case 1: return Color.cyan('▓');    break
-    case 2: return Color.yellow('▓');  break
-    case 3: return Color.magenta('▓'); break
-    case 4: return Color.green('▓');   break
-    case 5: return Color.red('▓');     break
-    case 6: return Color.blue('▓');    break
-    case 7: return Color.white('▓');   break
-    case -1: return ' ';         break
-    default: return '░';         break
-  }
-}
+const currentPiece = generateRandomPiece()
+
+
+const objPiece = generateRandomPiece()
+
+
+const renderPiece = ({piece, x, y, colorIndex}) =>
+  piece.map((row, i) => row.map((element, j) => {if (element == 1) {
+      ctx.fillStyle = colors[colorIndex]
+      ctx.fillRect(j, i, 1, 1)
+  } }))
+
+renderPiece(objPiece)
+  
 
 const Matrix  = {}
 Matrix.sum    = pipe(map(reduce(add)(0)), reduce(add)(0))
@@ -265,5 +308,5 @@ const show = () =>
     Matrix.toStr,
   )(STATE))
 setInterval(() => { step(); show() }, 30)
-
-
+  
+  
