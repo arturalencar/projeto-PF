@@ -1,4 +1,4 @@
-Projeto proposto pela faculdade no materia de programação funcional, no qual o nosso grupo resolveu criar um tetris com a presença de um sistema econômico que possibilita o
+Projeto proposto pela faculdade na matéria de programação funcional, no qual o nosso grupo resolveu criar um tetris com a presença de um sistema econômico que possibilita o
 desbloqueio de skins e peças com propriedades especiais.
 
 estamos usando como referência os códigos abaixo:
