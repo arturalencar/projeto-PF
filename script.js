@@ -93,220 +93,239 @@ const prop = p => o => o[p]
 //
 const both = f => g => x => f(x) && g(x)
 
-const colors = [
-  '#fff',
-  '#9b5fe0',
-  '#16a4d8',
-  '#60dbe8',
-  '#8bd346',
-  '#efdf48',
-  '#f9a52c',
-  '#d64e12' 
-]
-
-const rows = 20;
-const cols = 10;
-const Pieces = [
-  [
-       [0,1,0,0],
-       [0,1,0,0],
-       [0,1,0,0],
-       [0,1,0,0]
-  ],
-  [
-       [1,1],
-       [1,1]
-  ],
-  [
-       [0,1,0],
-       [1,1,1],
-       [0,0,0]
-  ],
-  [
-       [0,1,1],
-       [1,1,0],
-       [0,0,0]
-  ],
-  [
-       [0,0,0],
-       [1,1,0],
-       [0,1,1]
-  ],
-  [
-       [0,0,0],
-       [1,1,1],
-       [0,0,1]
-  ],
-  [
-       [0,0,1],
-       [1,1,1],
-       [0,0,0]
-  ],
-]
-
 let canvas = document.querySelector('#tetris-board')
 let ctx = canvas.getContext("2d");
 ctx.scale(30, 30);
+let scoreboard = document.querySelector("h2");
 
-;
-const generateRandomPiece = () => {
-  const ran = Math.floor(Math.random() * 7)
-  const piece = Pieces[ran]
-  const x = 4;
-  const y = 0;
-  const colorIndex = ran + 1
-  return { piece, x, y, colorIndex }
+
+const SHAPES = [
+    [
+        [0,1,0,0],
+        [0,1,0,0],
+        [0,1,0,0],
+        [0,1,0,0]
+    ],
+    [
+        [0,1,0],  
+        [0,1,0],  
+        [1,1,0]   
+    ],
+    [
+        [0,1,0],
+        [0,1,0],
+        [0,1,1]
+    ],
+    [
+        [1,1,0],
+        [0,1,1],
+        [0,0,0]
+    ],
+    [
+        [0,1,1],
+        [1,1,0],
+        [0,0,0]
+    ],
+    [
+        [1,1,1],
+        [0,1,0],
+        [0,0,0]
+    ],
+    [
+        [1,1],
+        [1,1],
+    ]
+]
+
+const COLORS = [
+    "#fff",
+    "#9b5fe0",
+    "#16a4d8",
+    "#60dbe8",
+    "#8bd346",
+    "#efdf48",
+    "#f9a52c",
+    "#d64e12"
+]
+
+const ROWS = 20;
+const COLS = 10;
+
+let grid = generateGrid();
+let fallingPieceObj = null;
+let score = 0;
+
+setInterval(newGameState,500);
+function newGameState(){
+    checkGrid();
+    if(!fallingPieceObj){
+        fallingPieceObj = randomPieceObject();
+        renderPiece();
+    }
+    moveDown();
 }
 
-const currentPiece = generateRandomPiece()
-
-
-const objPiece = generateRandomPiece()
-
-
-const renderPiece = ({piece, x, y, colorIndex}) =>
-  piece.map((row, i) => row.map((element, j) => {if (element == 1) {
-      ctx.fillStyle = colors[colorIndex]
-      ctx.fillRect(j, i, 1, 1)
-  } }))
-
-renderPiece(objPiece)
-  
-
-const Matrix  = {}
-Matrix.sum    = pipe(map(reduce(add)(0)), reduce(add)(0))
-Matrix.toStr  = x => pipe(map(join(' ')), join('\r\n'))(x)
-Matrix.row    = x => m => rep(x)(m[0].length)
-Matrix.frame  = m => append(Matrix.row('▔')(m))(m)
-Matrix.rotate = pipe(transpose, mirror)
-Matrix.make   = rows => cols => rep(rep(0)(cols))(rows)
-Matrix.mount  = f => pos => m1 => m2 =>
-  mapi(row => y =>
-    mapi(val => x =>
-      (y >= pos.y && (y - pos.y < m1.length)) &&
-      (x >= pos.x && (x - pos.x < m1[0].length))
-      ? f(m1[y-pos.y][x-pos.x])(m2[y][x])
-      : m2[y][x]
-    )(row)
-  )(m2)
-    
-const Random = {}
-Random.pick = xs => xs[Math.floor(Math.random() * xs.length)]
-
-const Player = {}
-Player.move   = d => p => ({ ...p, x:p.x+(d.x||0), y:p.y+(d.y||0) })
-Player.make   = () => ({ x: 3, y: 0 , piece: Piece.rand() }),
-Player.rotate = p  => ({ ...p, piece: Matrix.rotate(p.piece) })
-
-const State = {}
-State.toMatrix = s => Board.mount(s.player)(s.board)
-State.make = k({
-  time:   0,
-  wait:   15,
-  board:  Matrix.make(22)(10),
-  player: Player.make(),
-})
-State.movePlayer = f => s => {
-  if (State.isAnimating(s)) return s
-  let pre  = Board.mount(s.player)(s.board)
-  let post = Board.mount(f(s.player))(s.board)
-  let valid = Matrix.sum(pre) == Matrix.sum(post)
-  return { ...s, player: valid ? f(s.player) : s.player }
+function checkGrid(){
+    let count = 0;
+    for(let i=0;i<grid.length;i++){
+        let allFilled = true;
+        for(let j=0;j<grid[0].length;j++){
+            if(grid[i][j] == 0){
+                allFilled = false
+            }
+        }
+        if(allFilled){
+            count++;
+            grid.splice(i,1);
+            grid.unshift([0,0,0,0,0,0,0,0,0,0]);
+        }
+    }
+    if(count == 1){
+        score+=10;
+    }else if(count == 2){
+        score+=30;
+    }else if(count == 3){
+        score+=50;
+    }else if(count>3){
+        score+=100
+    }
+    scoreboard.innerHTML = "Score: " + score;
 }
-State.moveLeft   = State.movePlayer(Player.move({ x: -1 }))
-State.moveRight  = State.movePlayer(Player.move({ x: 1 }))
-State.moveDown   = s => {
-  if (State.isAnimating(s)) return s
-  let s2 = State.movePlayer(Player.move({ y: 1 }))(s)
-  return s2.player != s.player
-    ? s2
-    : {
-      ...s,
-      board:  Board.mount(s.player)(s.board),
-      player: Player.make(),
+
+function generateGrid(){
+    let grid = [];
+    for(let i=0;i<ROWS;i++){
+        grid.push([]);
+        for(let j=0;j<COLS;j++){
+            grid[i].push(0)
+        }
+    }
+    return grid;
+}
+
+function randomPieceObject(){
+    let ran = Math.floor(Math.random()*7);
+    let piece = SHAPES[ran];
+    let colorIndex = ran+1;
+    let x = 4;
+    let y = 0;
+    return {piece,colorIndex,x,y}
+}
+
+function renderPiece(){
+    let piece = fallingPieceObj.piece;
+    for(let i=0;i<piece.length;i++){
+        for(let j=0;j<piece[i].length;j++){
+            if(piece[i][j] == 1){
+            ctx.fillStyle = COLORS[fallingPieceObj.colorIndex];
+            ctx.fillRect(fallingPieceObj.x+j,fallingPieceObj.y+i,1,1);
+        }
+        }
     }
 }
-State.rotate = s =>
-  State.isAnimating(s) ? s : ({
-    ...s,
-    player: (
-      find(f =>
-        Matrix.sum(Board.mount(f(s.player))(s.board)) ==
-        Matrix.sum(Board.mount(s.player)(s.board))
-      )([
-        Player.rotate,
-        pipe(Player.move({ x: 1 }), Player.rotate),
-        pipe(Player.move({ x:-1 }), Player.rotate),
-        pipe(Player.move({ x: 2 }), Player.rotate),
-        pipe(Player.move({ x:-2 }), Player.rotate),
-        id
-      ])
-    )(s.player)
-  })
-State.swipe = s => ({
-  ...s,
-  board: s.board.map(
-    ifelse(
-      all(both(flip(gt)(0))(flip(lt)(10)))
-    )(
-      k([10,12,14,16,18,18,16,14,12,10])
-    )(id)
-  )
-})
-State.clear = s => {
-  let remains = filter(any(not(eq(-1))))(s.board)
-  let count    = s.board.length - remains.length
-  let newlines = rep(Matrix.row(0)(remains))(count)
-  let board    = concat(newlines)(remains)
-  return { ...s, board }
+
+function moveDown(){
+    if(!collision(fallingPieceObj.x,fallingPieceObj.y+1))
+        fallingPieceObj.y+=1;
+    else{
+        let piece = fallingPieceObj.piece
+        for(let i=0;i<piece.length;i++){
+            for(let j=0;j<piece[i].length;j++){
+                if(piece[i][j] == 1){
+                    let p = fallingPieceObj.x+j;
+                    let q = fallingPieceObj.y+i;
+                    grid[q][p] = fallingPieceObj.colorIndex;
+                }
+            }
+        }
+        if(fallingPieceObj.y == 0){
+            alert("gamer over");
+            grid = generateGrid();
+            score = 0;
+        }
+        fallingPieceObj = null;
+    }
+    renderGame();
 }
-State.isAnimating = pipe(prop('board'), any(any(flip(gt)(9))))
-State.animate = s => ({
-  ...s,
-  board: map(map(pipe(
-    ifelse(flip(gt)(7))(add(1))(id),
-    ifelse(flip(gt)(30))(k(-1))(id)
-  )))(s.board)
+
+function moveLeft(){
+    if(!collision(fallingPieceObj.x-1,fallingPieceObj.y))
+        fallingPieceObj.x-=1;
+    renderGame();
+}
+
+function moveRight(){
+    if(!collision(fallingPieceObj.x+1,fallingPieceObj.y))
+        fallingPieceObj.x+=1;
+    renderGame();
+}
+
+function rotate(){
+    let rotatedPiece = [];
+    let piece = fallingPieceObj.piece;
+    for(let i=0;i<piece.length;i++){
+        rotatedPiece.push([]);
+        for(let j=0;j<piece[i].length;j++){
+            rotatedPiece[i].push(0);
+        }
+    }
+    for(let i=0;i<piece.length;i++){
+        for(let j=0;j<piece[i].length;j++){
+            rotatedPiece[i][j] = piece[j][i]
+        }
+    }
+
+    for(let i=0;i<rotatedPiece.length;i++){
+        rotatedPiece[i] = rotatedPiece[i].reverse();
+    }
+    if(!collision(fallingPieceObj.x,fallingPieceObj.y,rotatedPiece))
+        fallingPieceObj.piece = rotatedPiece
+    renderGame()
+}
+
+function collision(x,y,rotatedPiece){
+    let piece = rotatedPiece || fallingPieceObj.piece
+    for(let i=0;i<piece.length;i++){
+        for(let j=0;j<piece[i].length;j++){
+            if(piece[i][j] == 1){
+            let p = x+j;
+            let q = y+i;
+            if(p>=0 && p<COLS && q>=0 && q<ROWS){
+                if(grid[q][p]>0){
+                    return true;
+                }
+            }else{
+                return true;
+            }}
+        }
+    }
+    return false;
+}
+
+function renderGame(){
+    for(let i=0;i<grid.length;i++){
+        for(let j=0;j<grid[i].length;j++){
+            ctx.fillStyle = COLORS[grid[i][j]];
+            ctx.fillRect(j,i,1,1)
+        }
+    }
+    renderPiece();
+}
+
+document.addEventListener("keydown",function(e){
+    let key = e.key;
+    if(key == "ArrowDown"){
+        moveDown();
+    }else if(key == "ArrowLeft"){
+        moveLeft();
+    }else if(key == "ArrowRight"){
+        moveRight();
+    }else if(key == "ArrowUp"){
+        rotate();
+    }
 })
-State.timeToMove     = s => s.time % s.wait == 0
-State.nextTime       = s => ({ ...s, time: s.time + 1})
-State.maybeMoveDown  = ifelse(State.isAnimating)(id)(ifelse(State.timeToMove)(State.moveDown)(id))
-State.next           = pipe(
-  State.animate,
-  State.nextTime,
-  State.maybeMoveDown,
-  State.clear,
-  State.swipe,
-)
 
-const Board = {}
-Board.mount = p => Matrix.mount(o => n => n != 0 ? n : o)(p)(p.piece)
-Board.valid = b1 => b2 => Matrix.sum(b1) == Matrix.sum(b2)
-
-// Key events
-const readline = require('readline')
-readline.emitKeypressEvents(process.stdin);
-process.stdin.setRawMode(true);
-process.on('keypress', (str, key) => {
-  if (key.ctrl && key.name === 'c') process.exit()
-  switch (key.name.toUpperCase()) {
-    case 'LEFT':  STATE = State.moveLeft(STATE);  break
-    case 'RIGHT': STATE = State.moveRight(STATE); break
-    case 'DOWN':  STATE = State.moveDown(STATE);  break
-    case 'UP':    STATE = State.rotate(STATE);    break
-  }
-});
-
-// Game loop
-let STATE = State.make()
-const step = () => STATE = State.next(STATE)
-const show = () =>
-  console.log('\x1Bc' + pipe(
-    State.toMatrix,
-    map(map(Piece.toStr)),
-    Matrix.frame,
-    Matrix.toStr,
-  )(STATE))
-setInterval(() => { step(); show() }, 30)
   
+
+
   

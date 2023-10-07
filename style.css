@@ -1,60 +1,83 @@
+@font-face {
+  font-family: 'Tetris' ;
+  src: url('fonts/AldotheApache.ttf') format('truetype');
+}
+
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 body{
-  
-  background-color:whitesmoke;
+  height: 100vh;
+  background-color: whitesmoke;
+  display: flex;
+  align-items: center;
 }
-nav.menu-lateral{
+
+nav.menu-lateral {
+  width: 65px; 
   height: 100%;
-  width: 60px;
-  background-color: lightskyblue;
-  transition: 0.5s;
+  background-color: #0d001a;
+  padding: 40px 0 40px 1%;
+  box-shadow: 5px 0 0 #50029e;
+   
   position: fixed;
   top: 0;
   left: 0;
-  padding: 40px 0 40px 1%;
-  box-shadow: 3px 0 0 black;
   overflow: hidden;
-  border-radius: 5px;
- 
+  transition: .3s;
 }
-nav.menu-lateral:hover{
-  width: 200px;
-  
+
+nav.menu-lateral:hover {
+  width: 180px;
+
 }
-ul.menu-elementos{
-  
-  list-style: none;
+
+ul {
+  height: 100%;
+  text-decoration: none;
 }
-ul.menu-elementos li{
-  transition: 0.5s;
-  cursor: pointer;
+
+ul li.icones-menu {
+  transition: .2s;
+}
+
+ul li.icones-menu:hover {
+  background-color: #50029e;
+}
+
+ul li.icones-menu {
+  color: #fff;
+  text-decoration: none;
+  font-size: 23px;
+  padding: 10px 4px;
   display: flex;
   margin-bottom: 20px;
-  line-height: 45px;
+  font-family: 'Tetris';
+  line-height:  40px;
+  cursor: pointer;
 }
-ul.menu-elementos li button {
-    padding: 0;
-    color: black;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-  }
-  button:hover {
-    background-color: red;     /* talvez tirar*/
-  }
-ul.menu-elementos li:hover{
-  background-color: red;
-  
+
+ul li.icones-menu .icone-texto {
+  margin-left: 26px;
 }
-ul.menu-elementos li span.icons-menu{
+
+ul li.icones-menu .icone > i {
   font-size: 30px;
-  margin-left: 8px;
-  
-  
+}
+
+button {
+  color: #fff;
+  background-color: transparent;
+  border: none;
+  text-decoration: none;
+  font-size: 23px;
+  display: flex;
+  font-family: 'Tetris';
+  line-height:  40px;
+  cursor: pointer;
 }
 
 .shop {
@@ -63,10 +86,10 @@ ul.menu-elementos li span.icons-menu{
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
   transition: 200ms ease-in-out;
-  border: 1px solid black;
+  border: 1px solid #50029e;
   border-radius: 10px;
   z-index: 10;
-  background-color: white;
+  background-color: #0d001af4;
   width: 500px;
   max-width: 80%;
 }
@@ -80,12 +103,11 @@ ul.menu-elementos li span.icons-menu{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #50029e;
 }
 
 .shop-header .title {
-  font-size: 1.25rem;
-  font-weight: bold;
+  font-size: 1.3rem;
 }
 
 .shop-header .close-button {
@@ -93,7 +115,7 @@ ul.menu-elementos li span.icons-menu{
   border: none;
   outline: none;
   background: none;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
@@ -124,19 +146,50 @@ ul.menu-elementos li span.menu-texto{
     margin-left: 12px;
     
 }
+
 div.tetris-principal{
+  margin: 50% 42%;
   display: flex;
   background-color: whitesmoke;
   justify-content: space-evenly;
   flex-direction: column;
   align-items: center;
   height: 90vh;
-   
 }
-div.tetris-principal h1{
-  margin-top: 10px;
+
+div.tetris-principal h1{  /* TESTES */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-size: 45px;
+  font-family: 'Tetris';
+  font-variant: small-caps;
+  background: linear-gradient(to right,
+  rgb(242, 31, 31) , 
+  rgb(239, 173, 51),
+  rgb(241, 241, 58), 
+  rgb(0, 156, 29),
+  rgb(58, 248, 226), 
+  rgb(61, 61, 238) ),
+  rgb(237, 115, 136);
+  background-size: 200% 200%;
+  animation: animate 10s ease-in-out infinite;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
 }
-canvas#tetris-board{
+
+@keyframes animate {
+  0% {
+    background-position: 0 ;
+  }
+  100% {
+    background-position: 100% ;
+  }
+}
+
+
+canvas #tetris-board{
   background-color: white;
   box-shadow: 0 0 10px 0 lightgray;
 }
