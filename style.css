@@ -3,23 +3,24 @@
   src: url('fonts/AldotheApache.ttf') format('truetype');
 }
 
-@font-face {
-  font-family: 'Tetris' ;
-  src: url('fonts/AldotheApache.ttf') format('truetype');
-}
-
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-
 body{
   height: 100vh;
-  background-color: whitesmoke;
+  background-color: #171717e6;
   display: flex;
   align-items: center;
+}
+
+.logo {
+  font-family: 'Tetris', serif;
+  font-size: 80px;
+  font-weight: bold;
+  text-shadow: 3px 4px 4px #000000;
 }
 
 nav.menu-lateral {
@@ -37,17 +38,6 @@ nav.menu-lateral {
   top: 0;
   left: 0;
   overflow: hidden;
-  transition: .3s;
-}
-
-nav.menu-lateral:hover {
-  width: 180px;
-
-}
-
-ul {
-  height: 100%;
-  text-decoration: none;
   transition: .3s;
 }
 
@@ -108,21 +98,7 @@ ul li.icones-menu .icone-texto {
 }
 
 ul li.icones-menu .icone > i {
-
-ul li.icones-menu .icone > i {
   font-size: 30px;
-}
-}
-button {
-  color: #fff;
-  background-color: transparent;
-  border: none;
-  text-decoration: none;
-  font-size: 23px;
-  display: flex;
-  font-family: 'Tetris';
-  line-height:  40px;
-  cursor: pointer;
 }
 
 button {
@@ -144,10 +120,8 @@ button {
   transform: translate(-50%, -50%) scale(0);
   transition: 200ms ease-in-out;
   border: 1px solid #50029e;
-  border: 1px solid #50029e;
   border-radius: 10px;
   z-index: 10;
-  background-color: #0d001af4;
   background-color: #0d001af4;
   width: 500px;
   max-width: 80%;
@@ -163,11 +137,9 @@ button {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #50029e;
-  border-bottom: 1px solid #50029e;
 }
 
 .shop-header .title {
-  font-size: 1.3rem;
   font-size: 1.3rem;
 }
 
@@ -176,7 +148,6 @@ button {
   border: none;
   outline: none;
   background: none;
-  font-size: 1.5rem;
   font-size: 1.5rem;
   font-weight: bold;
 }
@@ -203,65 +174,49 @@ button {
 }
 
 ul.menu-elementos li span.menu-texto{
-    font-size: 20px;
-   
-    margin-left: 12px;
+  font-size: 20px;
+  margin-left: 12px;
     
 }
 
-
 div.tetris-principal{
   margin: 50% 42%;
-  margin: 50% 42%;
+  background-color: ##171717da;
   display: flex;
-  background-color: whitesmoke;
   justify-content: space-evenly;
   flex-direction: column;
   align-items: center;
   height: 90vh;
 }
 
-div.tetris-principal h1{  /* TESTES */
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  font-size: 45px;
+#score {
+  color: rgb(220, 218, 218);
   font-family: 'Tetris';
-  font-variant: small-caps;
-  background: linear-gradient(to right,
-  rgb(242, 31, 31) , 
-  rgb(239, 173, 51),
-  rgb(241, 241, 58), 
-  rgb(0, 156, 29),
-  rgb(58, 248, 226), 
-  rgb(61, 61, 238) ),
-  rgb(237, 115, 136);
-  background-size: 200% 200%;
-  animation: animate 10s ease-in-out infinite;
-  color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
+  font-weight: lighter;
 }
 
-@keyframes animate {
-  0% {
-    background-position: 0 ;
-  }
-  100% {
-    background-position: 100% ;
-  }
+.red {
+  color: red;
 }
 
+.green {
+  color: green;
+}
 
+.blue {
+  color: blue;
+}
 
+.yellow {
+  color: yellow;
+}
 
-@keyframes animate {
-  0% {
-    background-position: 0 ;
-  }
-  100% {
-    background-position: 100% ;
-  }
+.cyan {
+  color: cyan;
+}
+
+.orange {
+  color: orange;
 }
 
 
