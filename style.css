@@ -74,6 +74,7 @@ ul li.icones-menu {
   text-decoration: none;
   font-size: 23px;
   padding: 10px 4px;
+}
 
 ul li.icones-menu {
   transition: .2s;
@@ -111,7 +112,7 @@ ul li.icones-menu .icone > i {
 ul li.icones-menu .icone > i {
   font-size: 30px;
 }
-
+}
 button {
   color: #fff;
   background-color: transparent;
