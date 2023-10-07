@@ -1,8 +1,9 @@
 // Shop Button (Não está em programção funcional)
-const openShopButtons = document.querySelectorAll('[data-shop-target]') 
-const closeShopButtons = document.querySelectorAll('[data-close-button]')
-const overlay = document.getElementById('overlay')
+const openShopButtons = document.querySelectorAll('[data-shop-target]') //retorna os elementos que possuem o atributo data-shop-target(vai servir para abrir a loja)
+const closeShopButtons = document.querySelectorAll('[data-close-button]') //retorna os elementos que possuem o atributo data-close-button(vai servir para fechar a loja)
+const overlay = document.getElementById('overlay') //retorna o elemento que possui o id overlay
 
+//espera o botão de abrir loja ser apertado, seleciona elementos com o valor de data-shopTarget e os abre utilizando a função openShop
 openShopButtons.forEach(button => {
   button.addEventListener('click', () => {
     const shop = document.querySelector(button.dataset.shopTarget)
@@ -10,6 +11,7 @@ openShopButtons.forEach(button => {
   })
 })
 
+//fecha a loja quando o overlay é clickado (utilizando a função closeShop)
 overlay.addEventListener('click', () => {
   const shops = document.querySelectorAll('.shop.active')
   shops.forEach(shop => {
@@ -17,6 +19,7 @@ overlay.addEventListener('click', () => {
   })
 })
 
+//espera o botão de fechar loja ser apertado, seleciona o elemento mais próximo com o valor shop e o fecha com a função closeShop
 closeShopButtons.forEach(button => {
   button.addEventListener('click', () => {
     const shop = button.closest('.shop')
