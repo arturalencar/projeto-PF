@@ -101,7 +101,7 @@ ul li.icones-menu .icone > i {
   font-size: 30px;
 }
 
-button {
+button.button1 {
   color: #fff;
   background-color: transparent;
   border: none;
@@ -111,6 +111,23 @@ button {
   font-family: 'Tetris';
   line-height:  40px;
   cursor: pointer;
+  width: 100%;
+}
+
+button.buttonshop {
+  color: #fff;
+  background-color: transparent;
+  border: none;
+  text-decoration: none;
+  font-size: 23px;
+  display: flex;
+  font-family: 'Tetris';
+  line-height:  40px;
+  cursor: pointer;
+}
+
+button.buttonshop:hover{
+color: lime
 }
 
 .shop {
@@ -150,6 +167,7 @@ button {
   background: none;
   font-size: 1.5rem;
   font-weight: bold;
+  color: white
 }
 
 .shop-body {
@@ -222,4 +240,8 @@ div.tetris-principal{
 canvas #tetris-board{
   background-color: white;
   box-shadow: 0 0 10px 0 lightgray;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 4bce93869d8c18c3fb392d6c92bf5d4c93baae12
