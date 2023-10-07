@@ -11,7 +11,7 @@
 
 body{
   height: 100vh;
-  background-color: #171717e6;
+  background-color: #040009ec;
   display: flex;
   align-items: center;
 }
@@ -181,7 +181,6 @@ ul.menu-elementos li span.menu-texto{
 
 div.tetris-principal{
   margin: 50% 42%;
-  background-color: ##171717da;
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;

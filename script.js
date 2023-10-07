@@ -24,12 +24,15 @@ closeShopButtons.forEach(button => {
   })
 })
 
+// Ambas as funções abaixo determinam o estado da janela a loja (aberta ou fechada).
+//Nesta, é adicionado o 'active', declarando assim que a janela está aberta.
 function openShop(shop) {
   if (shop == null) return
   shop.classList.add('active')
   overlay.classList.add('active')
 }
 
+//Nesta, é removido o 'active', quando a janela é fechada.
 function closeShop(shop) {
   if (shop == null) return
   shop.classList.remove('active')
@@ -38,14 +41,14 @@ function closeShop(shop) {
 
 
 
-let canvas = document.querySelector("#tetris-board");
+let canvas = document.querySelector("#tetris-board"); // Conecta o canvas do html ao js
 let scoreboard = document.querySelector("h2");
-let ctx = canvas.getContext("2d");
-ctx.scale(30,30);
+let ctx = canvas.getContext("2d");  // Atribui ao contexto do jogo 2d
+ctx.scale(30,30);  // Dimensionamento do quadro de jogo
 
 
 
-
+// Estruturação das peças do jogo em seus diferentes formatos
 const SHAPES = [
     [
         [0,1,0,0],
@@ -84,6 +87,7 @@ const SHAPES = [
     ]
 ]
 
+// Atribui diferentes cores às peças
 const COLORS = [
     "#fff",
     "#9b5fe0",
@@ -95,13 +99,15 @@ const COLORS = [
     "#d64e12"
 ]
 
-const ROWS = 20;
-const COLS = 10;
+const ROWS = 19;  // Número de linhas do quadro de jogo
+const COLS = 10;  // Número de colunas do quadro de jogo
 
-let grid = generateGrid();
-let fallingPieceObj = null;
-let score = 0;
+// Quando deixamos de forma funcional, o código não funciona de maneira correta.
+let grid = generateGrid();   //Variável para a geração do plano de jogo
+let fallingPieceObj = null; 
+let score = 0;  //Contagem inicial da pontuação
 
+// EStebelece o reinício do quadro de jogo para uma nova partida
 setInterval(newGameState,500);
 function newGameState(){
     checkGrid();
@@ -112,6 +118,7 @@ function newGameState(){
     moveDown();
 }
 
+// Função de verificação para os quadrados que estão preechidos ou não 
 function checkGrid() {
     const updatedGrid = grid.reduce((newGrid, row) => {
       const allFilled = row.every((cell) => cell !== 0);
@@ -122,7 +129,8 @@ function checkGrid() {
     }, []);
   
     const rowsCleared = grid.length - updatedGrid.length;
-  
+    
+    // Sistema de pontuação por linhas completadas
     let scoreIncrease = 0;
     if (rowsCleared === 1) {
       scoreIncrease = 10;
@@ -133,14 +141,15 @@ function checkGrid() {
     } else if (rowsCleared > 3) {
       scoreIncrease = 100;
     }
-  
+    
+    // Mecanismo de soma de pontuação diante das linhas que são completadas durante a partida
     score += scoreIncrease;
     scoreboard.innerHTML = "Score: " + score;
     const emptyRows = Array.from({ length: rowsCleared }, () => [0,0,0,0,0,0,0,0,0,0,]);
     grid = [...emptyRows, ...updatedGrid];
-  }
+}
   
-
+// Função responsável pela geração do plano de jogo, onde as peças podem percorrer durante a partida.
 function generateGrid(i = 0, grid = []){
     if( i >= ROWS) return grid
     else{
@@ -157,7 +166,7 @@ function generateGrid(i = 0, grid = []){
     }
 }
 
-
+// Função responsável pela geração automática e aleatória(dentre as possíveis) das peças no decorrer da partida.
 function randomPieceObject(){
     const ran = Math.floor(Math.random()*7);
     const piece = SHAPES[ran];
@@ -167,6 +176,7 @@ function randomPieceObject(){
     return {piece,colorIndex,x,y}
 }
 
+// Renderiza a peça no quadro de jogo após ela ser gerada.
 function renderPiece() {
     const piece = fallingPieceObj.piece;
     const renderedPiece = piece.flatMap((row, i) =>
@@ -176,14 +186,15 @@ function renderPiece() {
         y: fallingPieceObj.y + i,
       }))
     );
-  
+
+    //
     renderedPiece.filter(({ cell }) => cell === 1).forEach(({ x, y }) => {
         ctx.fillStyle = COLORS[fallingPieceObj.colorIndex];
         ctx.fillRect(x, y, 1, 1);
       });
   }
   
-
+// Adiciona a capacidade de movimentação da peça para BAIXO, como a peça já se move para baixo naturalmente, este comando aumenta a velocidade de queda da peça.
 function moveDown() {
     const canMoveDown = !collision(fallingPieceObj.x, fallingPieceObj.y + 1);
   
@@ -203,7 +214,8 @@ function moveDown() {
         }
       }
     };
-  
+    
+    // Emite um alerta quando o teto máximo do quadro de jogo colide com uma peça, informando o final do partida, você perdeu :(
     const handleGameOver = () => {
       if (fallingPieceObj.y === 0) {
         alert("Game over");
@@ -211,7 +223,8 @@ function moveDown() {
         score = 0;
       }
     };
-  
+    
+    //Verifica a possibilidade de mover a peça para baixo, caso sim, continua a partida, caso não, emite o alerta de fim de jogo.
     if (canMoveDown) {
       movePieceDown();
     } else {
@@ -221,9 +234,9 @@ function moveDown() {
     }
   
     renderGame();
-  }
+}
   
-
+// Adiciona a capacidade de movimentação da peça para a ESQUERDA.
 function moveLeft(){
     const canMoveRight = !collision(fallingPieceObj.x - 1, fallingPieceObj.y);
   
@@ -234,6 +247,7 @@ function moveLeft(){
     renderGame();
 }
 
+// Adiciona a capacidade de movimentação da peça para a DIREITA.
 function moveRight() {
     const canMoveRight = !collision(fallingPieceObj.x + 1, fallingPieceObj.y);
   
@@ -242,9 +256,9 @@ function moveRight() {
     }
   
     renderGame();
-  }
+}
   
-
+// Adiciona a capacidade de ROTAÇÃO da peça.
 function rotate() {
     const piece = fallingPieceObj.piece;
     const transposeMatrix = (matrix) => matrix[0].map((_, i) => matrix.map((row) => row[i]));
@@ -255,9 +269,9 @@ function rotate() {
     }
   
     renderGame();
-  }
+}
   
-
+// Estabelece os limites de colisão das peças com as paredes, para que as peças permaneçam no quadro de jogo.
 function collision(x, y, rotatedPiece) {
     const piece = rotatedPiece || fallingPieceObj.piece;
   
@@ -273,8 +287,9 @@ function collision(x, y, rotatedPiece) {
     );
   
     return hasCollision;
-  }
+}
 
+// Renderiza o jogo
 function renderGame(){
     for(let i=0;i<grid.length;i++){
         for(let j=0;j<grid[i].length;j++){
@@ -285,6 +300,7 @@ function renderGame(){
     renderPiece();
 }
 
+// Atibui os comandos no teclado para efutuar as movimentações da peça em jogo.
 document.addEventListener("keydown",function(e){
     let key = e.key;
     if(key == "ArrowDown"){
@@ -297,7 +313,4 @@ document.addEventListener("keydown",function(e){
         rotate();
     }
 })
-  
-
-
   
