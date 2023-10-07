@@ -222,6 +222,7 @@ function renderPiece(){
         }
         }
     }
+    renderGame();
 }
 
 function moveDown(){

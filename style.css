@@ -3,11 +3,17 @@
   src: url('fonts/AldotheApache.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'Tetris' ;
+  src: url('fonts/AldotheApache.ttf') format('truetype');
+}
+
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 
 body{
   height: 100vh;
@@ -23,10 +29,25 @@ nav.menu-lateral {
   padding: 40px 0 40px 1%;
   box-shadow: 5px 0 0 #50029e;
    
+  background-color: #0d001a;
+  padding: 40px 0 40px 1%;
+  box-shadow: 5px 0 0 #50029e;
+   
   position: fixed;
   top: 0;
   left: 0;
   overflow: hidden;
+  transition: .3s;
+}
+
+nav.menu-lateral:hover {
+  width: 180px;
+
+}
+
+ul {
+  height: 100%;
+  text-decoration: none;
   transition: .3s;
 }
 
@@ -53,8 +74,29 @@ ul li.icones-menu {
   text-decoration: none;
   font-size: 23px;
   padding: 10px 4px;
+
+ul li.icones-menu {
+  transition: .2s;
+}
+
+ul li.icones-menu:hover {
+  background-color: #50029e;
+}
+
+ul li.icones-menu {
+  color: #fff;
+  text-decoration: none;
+  font-size: 23px;
+  padding: 10px 4px;
   display: flex;
   margin-bottom: 20px;
+  font-family: 'Tetris';
+  line-height:  40px;
+  cursor: pointer;
+}
+
+ul li.icones-menu .icone-texto {
+  margin-left: 26px;
   font-family: 'Tetris';
   line-height:  40px;
   cursor: pointer;
@@ -65,7 +107,21 @@ ul li.icones-menu .icone-texto {
 }
 
 ul li.icones-menu .icone > i {
+
+ul li.icones-menu .icone > i {
   font-size: 30px;
+}
+
+button {
+  color: #fff;
+  background-color: transparent;
+  border: none;
+  text-decoration: none;
+  font-size: 23px;
+  display: flex;
+  font-family: 'Tetris';
+  line-height:  40px;
+  cursor: pointer;
 }
 
 button {
@@ -87,8 +143,10 @@ button {
   transform: translate(-50%, -50%) scale(0);
   transition: 200ms ease-in-out;
   border: 1px solid #50029e;
+  border: 1px solid #50029e;
   border-radius: 10px;
   z-index: 10;
+  background-color: #0d001af4;
   background-color: #0d001af4;
   width: 500px;
   max-width: 80%;
@@ -104,9 +162,11 @@ button {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #50029e;
+  border-bottom: 1px solid #50029e;
 }
 
 .shop-header .title {
+  font-size: 1.3rem;
   font-size: 1.3rem;
 }
 
@@ -115,6 +175,7 @@ button {
   border: none;
   outline: none;
   background: none;
+  font-size: 1.5rem;
   font-size: 1.5rem;
   font-weight: bold;
 }
@@ -147,7 +208,9 @@ ul.menu-elementos li span.menu-texto{
     
 }
 
+
 div.tetris-principal{
+  margin: 50% 42%;
   margin: 50% 42%;
   display: flex;
   background-color: whitesmoke;
@@ -178,6 +241,18 @@ div.tetris-principal h1{  /* TESTES */
   background-clip: text;
   -webkit-background-clip: text;
 }
+
+@keyframes animate {
+  0% {
+    background-position: 0 ;
+  }
+  100% {
+    background-position: 100% ;
+  }
+}
+
+
+canvas #tetris-board{
 
 @keyframes animate {
   0% {
