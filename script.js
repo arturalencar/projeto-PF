@@ -36,67 +36,14 @@ function closeShop(shop) {
   overlay.classList.remove('active')
 }
 
-//General functions 
-const id = x => x
-// realiza a soma de dois parâmetros
-const add = x => y => x + y
-// recebe uma matriz bidimensional e devolve como resultado a sua matriz transposta
-const transpose = matrix => matrix[0].map((col, i) => matrix.map(row => row[i]));
-// recebe como parâmetro um array com subarrays e inverte a ordem dos elementos do subarray 
-const mirror = arrayOfArrays => arrayOfArrays.map(subArray => subArray.reverse())
-// a função pipe faz um encadeiamento de n funções em um parâmetro x qualquer 
-const pipe = (...fs) => x => [...fs].reduce((acc, f) => f(acc), x)
-// recebe uma função e um array como parâmetros e realiza um map no array 
-const map = f => xs => xs.map(f)
-//recebe um valor min e max e cria um array com os valores intermediários
-const range = min => max => [...Array(max).keys()].map((_, i) => i + min)
-// função que independente do seu segundo parâmetro sempre retorna o valor do primeiro, criando assim uma constante
-const k = x => _ => x
-// recebe como primeiro parâmetro um separador e como segundo um array o qual, para cada elemento do array tera como termo separador a string passada no primeiro parâmetro 
-const join = s => xs => xs.join(s)
-// recebe um valor e cria um array com n elemnetos iguais ao valor passado no primeiro parâmetro
-const rep = value => numberOfRepetitions => map(k(value))(range(0)(numberOfRepetitions))
-// recebe dois valores e realiza um concatenação entre eles 
-const concat = x1 => x2 => x1.concat(x2)
-// aplica uma função a cada um dos elementos de um array e passa o índice desse elemento como argumento para a função
-const mapi = f => xs => xs.map((x, i) => f(x)(i))
-// verifica se uma determinada condição e verdadeira, caso seja aplica a função t e caso seja falsa aplica a função f
-const ifelse = condition => t => f => value => condition(value) ? t(value) : f(value)
-//
-const reduce = f => z => xs => xs.reduce((acc, x) => f(acc)(x), z)
-//
-const eq = x => y => x == y
-//
-const find = f => xs => xs.find(f)
-//
-const append = x => xs => [...xs, x]
-//
-const not = f => x => !f(x)
-//
-const and = x => y => x && y
-//
-const or = x => y => x || y
-//
-const all = f => pipe(map(f), reduce(and)(true))
-//
-const any = f => pipe(map(f), reduce(or)(false))
-//
-const flip = f => x => y => f(y)(x)
-//
-const filter = f => xs => xs.filter(f)
-//
-const gt = x => y => x > y
-//
-const lt = x => y => x < y
-//
-const prop = p => o => o[p]
-//
-const both = f => g => x => f(x) && g(x)
 
-let canvas = document.querySelector('#tetris-board')
-let ctx = canvas.getContext("2d");
-ctx.scale(30, 30);
+
+let canvas = document.querySelector("#tetris-board");
 let scoreboard = document.querySelector("h2");
+let ctx = canvas.getContext("2d");
+ctx.scale(30,30);
+
+
 
 
 const SHAPES = [
@@ -165,143 +112,168 @@ function newGameState(){
     moveDown();
 }
 
-function checkGrid(){
-    let count = 0;
-    for(let i=0;i<grid.length;i++){
-        let allFilled = true;
-        for(let j=0;j<grid[0].length;j++){
-            if(grid[i][j] == 0){
-                allFilled = false
+function checkGrid() {
+    const updatedGrid = grid.reduce((newGrid, row) => {
+      const allFilled = row.every((cell) => cell !== 0);
+      if (!allFilled) {
+        newGrid.push([...row]);
+      }
+      return newGrid;
+    }, []);
+  
+    const rowsCleared = grid.length - updatedGrid.length;
+  
+    let scoreIncrease = 0;
+    if (rowsCleared === 1) {
+      scoreIncrease = 10;
+    } else if (rowsCleared === 2) {
+      scoreIncrease = 30;
+    } else if (rowsCleared === 3) {
+      scoreIncrease = 50;
+    } else if (rowsCleared > 3) {
+      scoreIncrease = 100;
+    }
+  
+    score += scoreIncrease;
+    scoreboard.innerHTML = "Score: " + score;
+    const emptyRows = Array.from({ length: rowsCleared }, () => [0,0,0,0,0,0,0,0,0,0,]);
+    grid = [...emptyRows, ...updatedGrid];
+  }
+  
+
+function generateGrid(i = 0, grid = []){
+    if( i >= ROWS) return grid
+    else{
+        grid.push([])
+        const generateGridCol = (i, j = 0, grid) =>{
+            if(j >= COLS) return grid
+            else{
+                grid[i].push(0)
+                return generateGridCol(i, j + 1, grid)
             }
         }
-        if(allFilled){
-            count++;
-            grid.splice(i,1);
-            grid.unshift([0,0,0,0,0,0,0,0,0,0]);
-        }
+        generateGridCol(i,0,grid)
+        return generateGrid(i + 1,grid)
     }
-    if(count == 1){
-        score+=10;
-    }else if(count == 2){
-        score+=30;
-    }else if(count == 3){
-        score+=50;
-    }else if(count>3){
-        score+=100
-    }
-    scoreboard.innerHTML = "Score: " + score;
 }
 
-function generateGrid(){
-    let grid = [];
-    for(let i=0;i<ROWS;i++){
-        grid.push([]);
-        for(let j=0;j<COLS;j++){
-            grid[i].push(0)
-        }
-    }
-    return grid;
-}
 
 function randomPieceObject(){
-    let ran = Math.floor(Math.random()*7);
-    let piece = SHAPES[ran];
-    let colorIndex = ran+1;
-    let x = 4;
-    let y = 0;
+    const ran = Math.floor(Math.random()*7);
+    const piece = SHAPES[ran];
+    const colorIndex = ran+1;
+    const x = 4;
+    const y = 0;
     return {piece,colorIndex,x,y}
 }
 
-function renderPiece(){
-    let piece = fallingPieceObj.piece;
-    for(let i=0;i<piece.length;i++){
-        for(let j=0;j<piece[i].length;j++){
-            if(piece[i][j] == 1){
-            ctx.fillStyle = COLORS[fallingPieceObj.colorIndex];
-            ctx.fillRect(fallingPieceObj.x+j,fallingPieceObj.y+i,1,1);
-        }
-        }
-    }
-    renderGame();
-}
+function renderPiece() {
+    const piece = fallingPieceObj.piece;
+    const renderedPiece = piece.flatMap((row, i) =>
+      row.map((cell, j) => ({
+        cell,
+        x: fallingPieceObj.x + j,
+        y: fallingPieceObj.y + i,
+      }))
+    );
+  
+    renderedPiece.filter(({ cell }) => cell === 1).forEach(({ x, y }) => {
+        ctx.fillStyle = COLORS[fallingPieceObj.colorIndex];
+        ctx.fillRect(x, y, 1, 1);
+      });
+  }
+  
 
-function moveDown(){
-    if(!collision(fallingPieceObj.x,fallingPieceObj.y+1))
-        fallingPieceObj.y+=1;
-    else{
-        let piece = fallingPieceObj.piece
-        for(let i=0;i<piece.length;i++){
-            for(let j=0;j<piece[i].length;j++){
-                if(piece[i][j] == 1){
-                    let p = fallingPieceObj.x+j;
-                    let q = fallingPieceObj.y+i;
-                    grid[q][p] = fallingPieceObj.colorIndex;
-                }
-            }
+function moveDown() {
+    const canMoveDown = !collision(fallingPieceObj.x, fallingPieceObj.y + 1);
+  
+    const movePieceDown = () => {
+      fallingPieceObj.y += 1;
+    };
+  
+    const placePieceOnGrid = () => {
+      const piece = fallingPieceObj.piece;
+      for (let i = 0; i < piece.length; i++) {
+        for (let j = 0; j < piece[i].length; j++) {
+          if (piece[i][j] === 1) {
+            const p = fallingPieceObj.x + j;
+            const q = fallingPieceObj.y + i;
+            grid[q][p] = fallingPieceObj.colorIndex;
+          }
         }
-        if(fallingPieceObj.y == 0){
-            alert("gamer over");
-            grid = generateGrid();
-            score = 0;
-        }
-        fallingPieceObj = null;
+      }
+    };
+  
+    const handleGameOver = () => {
+      if (fallingPieceObj.y === 0) {
+        alert("Game over");
+        grid = generateGrid();
+        score = 0;
+      }
+    };
+  
+    if (canMoveDown) {
+      movePieceDown();
+    } else {
+      placePieceOnGrid();
+      handleGameOver();
+      fallingPieceObj = null;
     }
+  
     renderGame();
-}
+  }
+  
 
 function moveLeft(){
-    if(!collision(fallingPieceObj.x-1,fallingPieceObj.y))
-        fallingPieceObj.x-=1;
+    const canMoveRight = !collision(fallingPieceObj.x - 1, fallingPieceObj.y);
+  
+    if (canMoveRight) {
+      fallingPieceObj = { ...fallingPieceObj, x: fallingPieceObj.x - 1 };
+    }
+  
     renderGame();
 }
 
-function moveRight(){
-    if(!collision(fallingPieceObj.x+1,fallingPieceObj.y))
-        fallingPieceObj.x+=1;
+function moveRight() {
+    const canMoveRight = !collision(fallingPieceObj.x + 1, fallingPieceObj.y);
+  
+    if (canMoveRight) {
+      fallingPieceObj = { ...fallingPieceObj, x: fallingPieceObj.x + 1 };
+    }
+  
     renderGame();
-}
+  }
+  
 
-function rotate(){
-    let rotatedPiece = [];
-    let piece = fallingPieceObj.piece;
-    for(let i=0;i<piece.length;i++){
-        rotatedPiece.push([]);
-        for(let j=0;j<piece[i].length;j++){
-            rotatedPiece[i].push(0);
-        }
+function rotate() {
+    const piece = fallingPieceObj.piece;
+    const transposeMatrix = (matrix) => matrix[0].map((_, i) => matrix.map((row) => row[i]));
+    const reverseRows = (matrix) => matrix.map((row) => row.reverse());
+    const rotatedPiece = reverseRows(transposeMatrix([...piece]));
+    if (!collision(fallingPieceObj.x, fallingPieceObj.y, rotatedPiece)) {
+      fallingPieceObj.piece = rotatedPiece;
     }
-    for(let i=0;i<piece.length;i++){
-        for(let j=0;j<piece[i].length;j++){
-            rotatedPiece[i][j] = piece[j][i]
-        }
-    }
+  
+    renderGame();
+  }
+  
 
-    for(let i=0;i<rotatedPiece.length;i++){
-        rotatedPiece[i] = rotatedPiece[i].reverse();
-    }
-    if(!collision(fallingPieceObj.x,fallingPieceObj.y,rotatedPiece))
-        fallingPieceObj.piece = rotatedPiece
-    renderGame()
-}
-
-function collision(x,y,rotatedPiece){
-    let piece = rotatedPiece || fallingPieceObj.piece
-    for(let i=0;i<piece.length;i++){
-        for(let j=0;j<piece[i].length;j++){
-            if(piece[i][j] == 1){
-            let p = x+j;
-            let q = y+i;
-            if(p>=0 && p<COLS && q>=0 && q<ROWS){
-                if(grid[q][p]>0){
-                    return true;
-                }
-            }else{
-                return true;
-            }}
-        }
-    }
-    return false;
-}
+function collision(x, y, rotatedPiece) {
+    const piece = rotatedPiece || fallingPieceObj.piece;
+  
+    const hasCollision = piece.some((row, i) =>
+      row.some((cell, j) => {
+        const p = x + j;
+        const q = y + i;
+        return (
+          (cell === 1 &&
+            ((p < 0 || p >= COLS || q >= ROWS) || (q >= 0 && grid[q][p] > 0)))
+        );
+      })
+    );
+  
+    return hasCollision;
+  }
 
 function renderGame(){
     for(let i=0;i<grid.length;i++){
@@ -325,7 +297,6 @@ document.addEventListener("keydown",function(e){
         rotate();
     }
 })
-
   
 
 
