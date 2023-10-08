@@ -57,27 +57,26 @@
                     </div>
 
                     <div class="shop-body">
-                        <span id="texto-bk1"> Botão (250 pontos)</span>
+                        <span id="texto-bk1"> Background Ciano (100 pontos)</span>
                         <button id="button-bk1" onclick="comprar('bk1')"class="buttonshop">Comprar</button>
-                        <button class="buttonshop">Ativado</button>
+                        <button class="buttonshop" onclick="backGroundChange('cyan')">Ativar</button>
                     </div>
 
                     <div class="shop-body">
-                        <span id="texto-bk2"> Botão (250 pontos)</span>
+                        <span id="texto-bk2"> Background Gradient (200 pontos)</span>
                         <button id="button-bk2" onclick="comprar('bk2')" class="buttonshop">Comprar</button>
-                        <button class="buttonshop">Ativado</button>
+                        <button class="buttonshop" onclick="backGroundChange('gradient')">Ativar</button>
                     </div>
 
                     <div class="shop-body">
-                        <span id="texto-bk3"> Tema Black and White<br>(250 pontos)</span>
+                        <span id="texto-bk3"> Tema Preto e Branco<br>(300 pontos)</span>
                         <button id="button-bk3" onclick="comprar('bk3')" class="buttonshop">Comprar</button>
-                        <button class="buttonshop">Ativado</button>
+                        <button class="buttonshop" onclick="backGroundChange('bw')">Ativar</button>
                     </div>
 
                     <div class="shop-body">
-                        <span id="texto-bk4"> Botão (250 pontos)</span>
-                        <button id="button-bk4" onclick="comprar('bk4')" class="buttonshop">Comprar</button>
-                        <button class="buttonshop">Ativado</button>
+                        <span id="texto-bk4"> Tema Inicial</span>
+                        <button class="buttonshop" onclick="backGroundChange('padrao')">Ativar</button>
                     </div>  
 
                     
@@ -98,15 +97,15 @@
 
     <div class="tetris-principal">
         <div class="logo">
-            <span class="red">T</span>
-            <span class="orange">E</span>
-            <span class="yellow">T</span>
-            <span class="green">R</span>
-            <span class="cyan">I</span>
-            <span class="blue">S</span>
+            <span id="red" class="blwh">T</span>
+            <span id="orange" class="blwh">E</span>
+            <span id="yellow" class="blwh">T</span>
+            <span id="green" class="blwh">R</span>
+            <span id="cyan" class="blwh">I</span>
+            <span id="blue" class="blwh">S</span>
         </div>
         <h2 id="score">SCORE: </h2>
-        <canvas id="tetris-board" height="580px" width="300px"></canvas>
+        <canvas id="tetris-board" height="570px" width="300px"></canvas>
     </div>
     
     
