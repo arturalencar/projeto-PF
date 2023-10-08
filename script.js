@@ -138,7 +138,7 @@ function scoreShop(scoreAtual) {
   valorNaLoja.innerHTML = valorNaLojaAtualizado.toString()
 }
 
-//Faz tocar a música 1
+//Faz tocar a música 1 e pausa a 2 e a 3
 var music1 = document.getElementById('music1')
 var playPauseButton1 = document.getElementById('playPauseButton1')
 var count1 = 0
@@ -147,6 +147,12 @@ function playPause1() {
         count1 = 1;
         music1.play()
         playPauseButton1.innerHTML = "Pause &#9208;"
+        count2 = 0
+        music2.pause()
+        playPauseButton2.innerHTML = "Play &#9655;"
+        count3 = 0
+        music3.pause()
+        playPauseButton3.innerHTML = "Play &#9655;"
     }
     else {
         count1 = 0
@@ -155,7 +161,7 @@ function playPause1() {
     }
 }
 
-//Faz tocar a música 2
+//Faz tocar a música 2 e pausa a 1 e a 3
 var music2 = document.getElementById('music2')
 var playPauseButton2 = document.getElementById('playPauseButton2')
 var count2 = 0
@@ -164,6 +170,12 @@ function playPause2() {
         count2 = 1;
         music2.play()
         playPauseButton2.innerHTML = "Pause &#9208;"
+        count1 = 0
+        music1.pause()
+        playPauseButton1.innerHTML = "Play &#9655;"
+        count3 = 0
+        music3.pause()
+        playPauseButton3.innerHTML = "Play &#9655;"
     }
     else {
         count2 = 0
@@ -172,7 +184,7 @@ function playPause2() {
     }
 }
 
-//Faz tocar a música 3
+//Faz tocar a música 3 e pausa a 1 e a 2
 var music3 = document.getElementById('music3')
 var playPauseButton3 = document.getElementById('playPauseButton3')
 var count3 = 0
@@ -181,6 +193,12 @@ function playPause3() {
         count3 = 1;
         music3.play()
         playPauseButton3.innerHTML = "Pause &#9208;"
+        count1 = 0
+        music1.pause()
+        playPauseButton1.innerHTML = "Play &#9655;"
+        count2 = 0
+        music2.pause()
+        playPauseButton2.innerHTML = "Play &#9655;"
     }
     else {
         count3 = 0
@@ -189,6 +207,68 @@ function playPause3() {
     }
 }
 
+//Muda o background a partir da loja
+function backGroundChange(cor){
+  const newBackground = cor
+  if(cor == 'cyan'){
+      body = document.querySelector('body')
+      body.style.backgroundColor = '#0bbae6ec'
+      body.style.background = '#0bbae6ec'
+      red = document.querySelector('#red')
+      red.style.color = 'red'
+      orange = document.querySelector('#orange')
+      orange.style.color = 'orange'
+      yellow = document.querySelector('#yellow')
+      yellow.style.color = 'yellow'
+      green = document.querySelector('#green')
+      green.style.color = 'green'
+      cyan = document.querySelector('#cyan')
+      cyan.style.color = 'cyan'
+      blue = document.querySelector('#blue')
+      blue.style.color = 'blue'
+  }
+  else if (cor == 'padrao'){
+      body = document.querySelector('body')
+      body.style.backgroundColor = '#040009ec'
+      body.style.background = '#040009ec'
+      red = document.querySelector('#red')
+      red.style.color = 'red'
+      orange = document.querySelector('#orange')
+      orange.style.color = 'orange'
+      yellow = document.querySelector('#yellow')
+      yellow.style.color = 'yellow'
+      green = document.querySelector('#green')
+      green.style.color = 'green'
+      cyan = document.querySelector('#cyan')
+      cyan.style.color = 'cyan'
+      blue = document.querySelector('#blue')
+      blue.style.color = 'blue'
+  }
+  else if (cor == 'gradient'){
+    body = document.querySelector('body')
+    body.style.backgroundColor = 'none'
+    body.style.background = 'linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab'
+    red = document.querySelector('#red')
+    red.style.color = 'red'
+    orange = document.querySelector('#orange')
+    orange.style.color = 'orange'
+    yellow = document.querySelector('#yellow')
+    yellow.style.color = 'yellow'
+    green = document.querySelector('#green')
+    green.style.color = 'green'
+    cyan = document.querySelector('#cyan')
+    cyan.style.color = 'cyan'
+    blue = document.querySelector('#blue')
+    blue.style.color = 'blue'
+  }
+  else if (cor == 'bw'){
+    body = document.querySelector('body')
+    body.style.backgroundColor = 'black'
+    body.style.background = 'black'
+const mudar = Array.from(document.querySelectorAll('span.blwh'))
+        mudar.map(element => element.style.color = 'white')
+}
+}
 
 let canvas = document.querySelector("#tetris-board"); // Conecta o canvas do html ao js
 let scoreboard = document.querySelector("h2");
