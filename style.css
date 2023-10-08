@@ -16,6 +16,19 @@ body{
   align-items: center;
 }
 
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+
 .logo {
   font-family: 'Tetris', serif;
   font-size: 50px;
@@ -204,32 +217,33 @@ div.tetris-principal{
   font-weight: lighter;
 }
 
-.red {
+#red {
   color: red;
 }
 
-.green {
+#green {
   color: green;
 }
 
-.blue {
+#blue {
   color: blue;
 }
 
-.yellow {
+#yellow {
   color: yellow;
 }
 
-.cyan {
+#cyan {
   color: cyan;
 }
 
-.orange {
+#orange {
   color: orange;
 }
 
 
-canvas #tetris-board{
+canvas#tetris-board{
   background-color: white;
+  border: solid 5px white;
   box-shadow: 0 0 10px 0 lightgray;
 }
