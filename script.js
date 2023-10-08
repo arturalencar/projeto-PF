@@ -1,4 +1,4 @@
-// Shop Button (Não está em programção funcional)
+// Shop Button (Não está em programação funcional)
 const openShopButtons = document.querySelectorAll('[data-shop-target]') //retorna os elementos que possuem o atributo data-shop-target(vai servir para abrir a loja)
 const closeShopButtons = document.querySelectorAll('[data-close-button]') //retorna os elementos que possuem o atributo data-close-button(vai servir para fechar a loja)
 const overlay = document.getElementById('overlay') //retorna o elemento que possui o id overlay
@@ -42,6 +42,56 @@ function closeShop(shop) {
   overlay.classList.remove('active')
 }
 
+//Faz tocar a música 1
+var music1 = document.getElementById('music1')
+var playPauseButton1 = document.getElementById('playPauseButton1')
+var count1 = 0
+function playPause1() {
+    if(count1 == 0) {
+        count1 = 1;
+        music1.play()
+        playPauseButton1.innerHTML = "Pause &#9208;"
+    }
+    else {
+        count1 = 0
+        music1.pause()
+        playPauseButton1.innerHTML = "Play &#9655;"
+    }
+}
+
+//Faz tocar a música 2
+var music2 = document.getElementById('music2')
+var playPauseButton2 = document.getElementById('playPauseButton2')
+var count2 = 0
+function playPause2() {
+    if(count2 == 0) {
+        count2 = 1;
+        music2.play()
+        playPauseButton2.innerHTML = "Pause &#9208;"
+    }
+    else {
+        count2 = 0
+        music2.pause()
+        playPauseButton2.innerHTML = "Play &#9655;"
+    }
+}
+
+//Faz tocar a música 3
+var music3 = document.getElementById('music3')
+var playPauseButton3 = document.getElementById('playPauseButton3')
+var count3 = 0
+function playPause3() {
+    if(count3 == 0) {
+        count3 = 1;
+        music3.play()
+        playPauseButton3.innerHTML = "Pause &#9208;"
+    }
+    else {
+        count3 = 0
+        music3.pause()
+        playPauseButton3.innerHTML = "Play &#9655;"
+    }
+}
 
 
 let canvas = document.querySelector("#tetris-board"); // Conecta o canvas do html ao js
