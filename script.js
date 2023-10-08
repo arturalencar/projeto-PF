@@ -41,6 +41,102 @@ function closeShop(shop) {
   shop.classList.remove('active')
   overlay.classList.remove('active')
 }
+//Realiza a compra dos itens na loja
+function comprar(item){
+  if(item == 'music1'){
+      let valorNaLoja = document.querySelector('#credito')
+      if(parseInt(valorNaLoja.innerHTML) >= 250){
+        const musicaComprada = document.querySelector('#music1')
+        musicaComprada.classList.add('comprado')
+        const button = document.querySelector('#buttonmusic1')
+        button.parentNode.removeChild(button)
+        valorNaLoja.innerHTML -= 250
+        const textoColorir = document.querySelector('#texto-music1')
+        textoColorir.style.color = 'green'
+      }
+      else alert('Você não tem saldo')
+  
+}
+  else if(item == 'music2'){
+    let valorNaLoja = document.querySelector('#credito')
+    if(parseInt(valorNaLoja.innerHTML) >= 250){
+    const musicaComprada = document.querySelector('#music2')
+    musicaComprada.classList.add('comprado')
+    const button = document.querySelector('#buttonmusic2')
+    button.parentNode.removeChild(button)
+    valorNaLoja.innerHTML -= 250
+    const textoColorir = document.querySelector('#texto-music2')
+        textoColorir.style.color = 'green'
+  }
+}
+   else if(item == 'music3'){
+    let valorNaLoja = document.querySelector('#credito')
+    if(parseInt(valorNaLoja.innerHTML) >= 250){
+    const musicaComprada = document.querySelector('#music3')
+    musicaComprada.classList.add('comprado')
+    const button = document.querySelector('#buttonmusic3')
+    button.parentNode.removeChild(button)
+    valorNaLoja.innerHTML -= 250
+    const textoColorir = document.querySelector('#texto-music3')
+    textoColorir.style.color = 'green'
+  }
+}
+  else if(item == 'bk1'){
+    let valorNaLoja = document.querySelector('#credito')
+    if(parseInt(valorNaLoja.innerHTML) >= 250){
+    const musicaComprada = document.querySelector('#texto-bk1')
+    musicaComprada.classList.add('comprado')
+    const button = document.querySelector('#button-bk1')
+    button.parentNode.removeChild(button)
+    valorNaLoja.innerHTML -= 250
+    const textoColorir = document.querySelector('#texto-bk1')
+    textoColorir.style.color = 'green'
+    }
+  }
+  else if(item == 'bk2'){
+    let valorNaLoja = document.querySelector('#credito')
+    if(parseInt(valorNaLoja.innerHTML) >= 250){
+    const musicaComprada = document.querySelector('#texto-bk2')
+    musicaComprada.classList.add('comprado')
+    const button = document.querySelector('#button-bk2')
+    button.parentNode.removeChild(button)
+    valorNaLoja.innerHTML -= 250
+    const textoColorir = document.querySelector('#texto-bk2')
+    textoColorir.style.color = 'green'
+  }
+}
+  else if(item == 'bk3'){
+    let valorNaLoja = document.querySelector('#credito')
+    if(parseInt(valorNaLoja.innerHTML) >= 250){
+    const musicaComprada = document.querySelector('#texto-bk3')
+    musicaComprada.classList.add('comprado')
+    const button = document.querySelector('#button-bk3')
+    button.parentNode.removeChild(button)
+    valorNaLoja.innerHTML -= 250
+    const textoColorir = document.querySelector('#texto-bk3')
+    textoColorir.style.color = 'green'
+  }
+}
+  else if(item == 'bk4'){
+    let valorNaLoja = document.querySelector('#credito')
+    if(parseInt(valorNaLoja.innerHTML) >= 250){
+    const musicaComprada = document.querySelector('#texto-bk4')
+    musicaComprada.classList.add('comprado')
+    const button = document.querySelector('#button-bk4')
+    button.parentNode.removeChild(button)
+    valorNaLoja.innerHTML -= 250
+    const textoColorir = document.querySelector('#texto-bk4')
+    textoColorir.style.color = 'green'
+  }
+}
+}
+
+//atualiza o seus créditos na loja
+function scoreShop(scoreAtual) {
+  let valorNaLoja = document.querySelector('#credito')
+  const valorNaLojaAtualizado = parseInt(valorNaLoja.innerHTML) + scoreAtual
+  valorNaLoja.innerHTML = valorNaLojaAtualizado.toString()
+}
 
 //Faz tocar a música 1
 var music1 = document.getElementById('music1')
@@ -273,6 +369,7 @@ function moveDown() {
       if (fallingPieceObj.y === 0) {
         alert("Game over");
         grid = generateGrid();
+        scoreShop(score)
         score = 0;
       }
     };
