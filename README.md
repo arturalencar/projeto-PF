@@ -18,5 +18,4 @@ Contains music ©2023 Retro Indie Josh
 (https://retroindiejosh.itch.io) 
 Licensed under Creative Commons Attribution 4.0 International
 
-Deploy do jogo no Netlify:
-https://tetris-pf.netlify.app
+
