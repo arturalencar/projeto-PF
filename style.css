@@ -31,7 +31,7 @@ body{
 
 .logo {
   font-family: 'Tetris', serif;
-  font-size: 70px;
+  font-size: 50px;
   font-weight: bold;
   text-shadow: 3px 4px 4px #000000;
 }
@@ -41,12 +41,7 @@ nav.menu-lateral {
   height: 100%;
   background-color: #0d001a;
   padding: 40px 0 40px 1%;
-  box-shadow: 5px 0 0 #50029e;
-   
-  background-color: #0d001a;
-  padding: 40px 0 40px 1%;
-  box-shadow: 5px 0 0 #50029e;
-   
+  box-shadow: 5px 0 0 #50029e; 
   position: fixed;
   top: 0;
   left: 0;
@@ -95,10 +90,6 @@ ul li.icones-menu .icone-texto {
   cursor: pointer;
 }
 
-ul li.icones-menu .icone-texto {
-  margin-left: 26px;
-}
-
 ul li.icones-menu .icone > i {
   font-size: 30px;
 }
@@ -126,7 +117,7 @@ button.buttonshop {
   font-family: 'Tetris';
   line-height:  40px;
   cursor: pointer;
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
 button.buttonshop:hover{
@@ -212,7 +203,7 @@ div.tetris-principal{
 }
 
 #score {
-  color: white;
+  color: rgb(220, 218, 218);
   font-family: 'Tetris';
   font-weight: lighter;
 }
@@ -244,6 +235,8 @@ div.tetris-principal{
 
 canvas#tetris-board{
   background-color: white;
-  border: solid 5px #bdbdbd;
   box-shadow: 0 0 10px 0 black;
+  border-radius: 8px;
+  border: solid 5px #bdbdbd;
 }
+
