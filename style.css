@@ -16,19 +16,6 @@ body{
   align-items: center;
 }
 
-@keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
-}
-
-
 .logo {
   font-family: 'Tetris', serif;
   font-size: 50px;
@@ -239,4 +226,3 @@ canvas#tetris-board{
   border-radius: 8px;
   border: solid 5px #bdbdbd;
 }
-
